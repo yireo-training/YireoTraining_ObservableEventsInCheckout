@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Framework\Event\ManagerInterface">
+        <plugin name="YireoTraining_ObservableEventsInCheckout::eventManager"
+                type="YireoTraining\ObservableEventsInCheckout\Plugin\EventManagerPlugin"/>
+    </type>
+
+    <type name="YireoTraining\ObservableEventsInCheckout\Observer\GenericObserver">
+        <arguments>
+            <argument name="logger" xsi:type="object">YireoTraining\ObservableEventsInCheckout\Logger\CustomLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="YireoTraining\ObservableEventsInCheckout\Plugin\EventManagerPlugin">
+        <arguments>
+            <argument name="logger" xsi:type="object">YireoTraining\ObservableEventsInCheckout\Logger\CustomLogger</argument>
+        </arguments>
+    </type>
+
+    <virtualType type="Magento\Framework\Logger\Monolog" name="YireoTraining\ObservableEventsInCheckout\Logger\CustomLogger">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">YireoTraining\ObservableEventsInCheckout\Logger\CustomLogHandler
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType type="Magento\Framework\Logger\Handler\Base"
+                 name="YireoTraining\ObservableEventsInCheckout\Logger\CustomLogHandler">
+        <arguments>
+            <argument name="fileName" xsi:type="string">var/log/YireoTraining_checkout_events.log</argument>
+        </arguments>
+    </virtualType>
+</config>
